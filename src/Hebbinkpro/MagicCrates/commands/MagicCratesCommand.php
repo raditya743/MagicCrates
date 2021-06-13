@@ -18,7 +18,7 @@ class MagicCratesCommand extends BaseCommand
     {
     	$this->setAliases(["mc"]);
 
-    	$this->setPermission("mc.cmd");
+    	$this->setPermission("magiccrates.cmd");
 
     	$this->registerSubCommand(new CrateCreate("create", "Create a crate"));
 		$this->registerSubCommand(new CrateRemove("remove", "Remove a crate"));

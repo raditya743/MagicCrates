@@ -7,17 +7,17 @@ use Hebbinkpro\MagicCrates\Main;
 
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class CrateRemove extends BaseSubCommand
 {
-	private $main;
+	private Main $main;
 
     protected function prepare(): void
     {
 		$this->main = Main::getInstance();
 
-		$this->setPermission("mc.command.remove");
+		$this->setPermission("magiccrates.cmd.remove");
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void

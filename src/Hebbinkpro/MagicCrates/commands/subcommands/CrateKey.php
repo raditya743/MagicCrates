@@ -5,24 +5,27 @@ namespace Hebbinkpro\MagicCrates\commands\subcommands;
 
 
 use CortexPE\Commando\args\IntegerArgument;
+use CortexPE\Commando\BaseSubCommand;
 use Hebbinkpro\MagicCrates\Main;
 use pocketmine\command\CommandSender;
 use CortexPE\Commando\args\RawStringArgument;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\item\Item;
+use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIds;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
-class CrateKey extends \CortexPE\Commando\BaseSubCommand
+class CrateKey extends BaseSubCommand
 {
-	private $main;
+	private Main $main;
 
     protected function prepare(): void
     {
 		$this->main = Main::getInstance();
 
-		$this->setPermission("mc.cmd.makekey");
+		$this->setPermission("magiccrates.cmd.makekey");
 
     	$this->registerArgument(0, new RawStringArgument("type", true));
 		$this->registerArgument(1, new IntegerArgument("amount", true));
@@ -32,8 +35,14 @@ class CrateKey extends \CortexPE\Commando\BaseSubCommand
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
 		if(!$sender instanceof Player){
-			$sender->sendMessage("[§6Magic§cCrates§r] §cUse this command in-game!");
-			return;
+		    if(!isset($args["player"])){
+                $sender->sendMessage("[§6Magic§cCrates§r] §cUsage: /mc makekey <type> <amount> <player>");
+                return;
+            }
+		    if(is_null($this->main->getServer()->getPlayerByPrefix($args["player"]))){
+                $sender->sendMessage("[§6Magic§cCrates§r] §cThe given player isn't online");
+                return;
+            }
 		}
 
     	$types = [];
@@ -51,10 +60,10 @@ class CrateKey extends \CortexPE\Commando\BaseSubCommand
         	return;
 		}
 
-        $key = new Item(ItemIds::PAPER);
+        $key = ItemFactory::getInstance()->get(ItemIds::PAPER,0);
         $key->setCustomName("§e" . $args["type"] . " §r§dCrate Key");
         $key->setLore(["§6Magic§cCrates §7Key - " . $args["type"]]);
-        $key->addEnchantment(new EnchantmentInstance(Enchantment::getEnchantment(Enchantment::UNBREAKING), 1));
+        $key->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 1));
 
         $count = 0;
         if(!isset($args["amount"])){
@@ -65,8 +74,8 @@ class CrateKey extends \CortexPE\Commando\BaseSubCommand
 		$i = 0;
 
         if(isset($args["player"])){
-        	if($this->main->getServer()->getPlayer($args["player"]) instanceof Player){
-        		$player = $this->main->getServer()->getPlayer($args["player"]);
+        	if($this->main->getServer()->getPlayerByPrefix($args["player"]) instanceof Player){
+        		$player = $this->main->getServer()->getPlayerByPrefix($args["player"]);
 				while($i < $count){
 					$i++;
 					$player->getInventory()->addItem($key);
