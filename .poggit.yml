@@ -2,7 +2,7 @@
 build-by-default: true
 branches:
 - main
-- v1.1.0
+- api-4.0
 projects:
   MagicCrates:
     path: ""
