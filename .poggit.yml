@@ -1,10 +1,10 @@
---- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/Hebbinkpro/MagicCrates
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/raditya743/MagicCratess
 build-by-default: true
 branches:
 - main
 - v1.1.0
 projects:
-  MagicCrates:
+  MagicCratess:
     path: ""
     lint:
       phpstan: false
