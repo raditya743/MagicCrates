@@ -3,8 +3,8 @@ description: Add crates to your server
 author: Hebbinkpro
 version: 1.1.0
 main: Hebbinkpro\MagicCrates\Main
-api: 3.14.2
-mcpe-protocol: [407,408,419,422]
+api: 3.22.1
+mcpe-protocol: [407,408,419,422,448]
 
 permissions:
   magiccrates.cmd:
